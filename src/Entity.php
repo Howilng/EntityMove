@@ -1227,7 +1227,7 @@ class Entity extends Position{
 		if($this->server->api->dhandle("entity.health.change", array("entity" => $this, "eid" => $this->eid, "health" => $health, "cause" => $cause)) !== false or $force === true){
 			$this->health = $health;
 			$this->server->query("UPDATE entities SET health = ".$this->health." WHERE EID = ".$this->eid.";");
-			if($harm === true)
+			if($harm === true){
 				$this->server->api->dhandle("entity.event", array("entity" => $this, "event" => 2));
 				if(is_numeric($cause) and $this->server->api->player->getByEID($cause) instanceof Player){
 					foreach($this->server->api->entity->getAll() as $en){
