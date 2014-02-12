@@ -46,7 +46,7 @@ class EntityPlugin implements Plugin{
 			case "Monster.Spawn":
 				$level = $this->api->level->getDefault();
 				if($this->api->time->getPhase($level) == "night"){//밤일시에 몬스터 스폰
-					if($this->spawn < $this->conf->get("몬스터최대수")){
+					if($this->spawn < $this->conf->get("몬스터최대수") and mt_rand(0,1)==mt_rand(0,2)){
 						$mobrand = mt_rand(32,36);
 						$data = array(
 							"x" => mt_rand(0,25580)/100,
@@ -63,7 +63,7 @@ class EntityPlugin implements Plugin{
 						}
 					}
 				}
-				if($this->spawn < $this->conf->get("몬스터최대수")){
+				if($this->spawn < $this->conf->get("몬스터최대수") and mt_rand(0,1)==mt_rand(0,2)){
 					$mobrand = mt_rand(10,13);
 					$data = array(
 						"x" => mt_rand(0,25580)/100,
