@@ -22,11 +22,9 @@
 몬스터 및 아이템 움직임
 좀비피그맨 중립성 추가
 몬스터 난이도별 데미지
-갑옷 내구도 추가(아직 불안정)
+갑옷 내구도 추가(PE와 동일하지 않음)
 난이도가 평화로움이면 몬스터 자동제거
 하드코어 추가
- 
-
 */
 
 class Entity extends Position{
@@ -631,6 +629,13 @@ class Entity extends Position{
 									$target->harm(13,$this->eid);
 								}
 							}
+						}else{
+							if($this->distance($target) <= 2.1){
+								$this->yaw = 20;
+								$this->speedX = 0;
+								$this->speedY = 0;
+								$this->speedZ = 0;
+							}
 						}
 					}else{
 						if($this->distance($target) <= mt_rand(0,25)/10){
@@ -650,9 +655,26 @@ class Entity extends Position{
 								MOB_SKELETON,
 								MOB_SPIDER,
 							);
+							$ani = array(
+								MOB_COW,
+								MOB_CHICKEN,
+								MOB_PIG,
+								MOP_SHEEP,
+							);
 							if(in_array($this->type,$mob)){
 								if($this->distance($otherp->entity) <= 7){
 									$this->target = $otherp;
+								}
+							}elseif(in_array($this->type,$ani)){
+								if($this->distance($otherp->entity) <= 10){
+									$slot = $otherp->getSlot($otherp->slot);
+									if($slot->getID() == WHEAT and ($this->type == MOB_SHEEP or $this->type == MOB_COW)){
+										$this->target = $otherp;
+									}elseif($slot->getID() == SEEDS and $this->type == MOB_CHICKEN){
+										$this->target = $otherp;
+									}elseif($slot->getID() == CARROT and $this->type == MOB_PIG){
+										$this->target = $otherp;
+									}
 								}
 							}
 						}
