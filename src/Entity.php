@@ -1263,10 +1263,10 @@ class Entity extends Position{
 							or $armor[$a]->getID() == IRON_LEGGINGS and $armor[$a]->getMetadata()>=300
 							or $armor[$a]->getID() == IRON_CHESTPLATE and $armor[$a]->getMetadata()>=360
 							//다이아
-							or $armor[$a]->getID() == DIAMOND_BOOTS and $armor[$a]->getMetadata()>=364
-							or $armor[$a]->getID() == DIAMOND_HELMET and $armor[$a]->getMetadata()>=529
+							or $armor[$a]->getID() == DIAMOND_BOOTS and $armor[$a]->getMetadata()>=430
+							or $armor[$a]->getID() == DIAMOND_HELMET and $armor[$a]->getMetadata()>=364
 							or $armor[$a]->getID() == DIAMOND_LEGGINGS and $armor[$a]->getMetadata()>=496
-							or $armor[$a]->getID() == DIAMOND_CHESTPLATE and $armor[$a]->getMetadata()>=430){
+							or $armor[$a]->getID() == DIAMOND_CHESTPLATE and $armor[$a]->getMetadata()>=529){
 								if($armor[$a]->count <= 1)$this->player->setArmor($a,new Item(AIR,0,0));
 								else$this->player->setArmor($a,new Item($armor[$a]->getID(),0,$armor[$a]->count-1));
 							}
