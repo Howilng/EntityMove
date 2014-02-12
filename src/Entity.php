@@ -17,6 +17,16 @@
  * @link http://www.pocketmine.net/
  * 
  *
+ 
+[현재 추가된 목록]
+몬스터 및 아이템 움직임
+좀비피그맨 중립성 추가
+몬스터 난이도별 데미지
+갑옷 내구도 추가(아직 불안정)
+난이도가 평화로움이면 몬스터 자동제거
+하드코어 추가
+ 
+
 */
 
 class Entity extends Position{
@@ -121,8 +131,8 @@ class Entity extends Position{
 					MOB_ZOMBIE => 20,
 					MOB_PIGMAN => 22,
 					MOB_SPIDER => 16,
+					MOB_CREEPER => 20,
 					MOB_SKELETON => 20,
-					MOB_CREEPER => mt_rand(1000,1500),
 				);
 				$mobs = array(
 					MOB_COW => "소",
@@ -138,7 +148,7 @@ class Entity extends Position{
 				$this->size = 1;
 				$this->setName($mobs[$this->type]);
 				$this->setHealth($health[$this->type], "generic");
-				$this->server->schedule(5, array($this, "update"), array(), true);\
+				$this->server->schedule(5, array($this, "update"), array(), true);
 				break;
 			case ENTITY_FALLING:
 				$this->setHealth(PHP_INT_MAX, "generic");
@@ -472,7 +482,7 @@ class Entity extends Position{
 				$update = false;
 				if($this->class == ENTITY_MOB){
 					if(!($this->target instanceof Player) or !$this->target->connected or $this->target->entity->dead){
-						if(!($this->target instanceof Vector3) or $this->time >= mt_rand(10,40)){
+						if(!($this->target instanceof Vector3) or $this->time >= mt_rand(12,51)){
 							$this->time = 0;
 							$ax = $this->x-(mt_rand(-10000,10000)/100);
 							$az = $this->z-(mt_rand(-10000,10000)/100);
@@ -571,7 +581,7 @@ class Entity extends Position{
 						}
 					}
 					if(($this->speedX == 0 or $this->speedZ == 0) and $this->speedY == 0){
-						$this->time = 25;
+						$this->time = 51;
 					}
 					if($target instanceof Entity){
 						if($this->type == MOB_CREEPER){
@@ -579,7 +589,7 @@ class Entity extends Position{
 								$this->bomb--;
 								if($this->bomb <= 0){
 									$this->bomb = 6;
-									$e = new Explosion($target, 5, $this->eid);
+									$e = new Explosion($target, 3.2);
 									$e->explode();
 								}
 							}else{
@@ -624,7 +634,7 @@ class Entity extends Position{
 						}
 					}else{
 						if($this->distance($target) <= mt_rand(0,25)/10){
-							$this->time = 25;
+							$this->time = 51;
 						}
 					}
 					foreach($this->level->players as $otherp){
@@ -1274,7 +1284,7 @@ class Entity extends Position{
 					}
 				}else{
 					$this->server->api->dhandle("entity.event", array("entity" => $this, "event" => 3));
-					$this->server->api->dhandle("player.death", array("entity" => $this, "cause" => $cause));
+					$this->server->api->dhandle("entity.death", array("entity" => $this, "cause" => $cause));
 					$this->close();
 				}
 			}
