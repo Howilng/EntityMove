@@ -659,7 +659,7 @@ class Entity extends Position{
 								MOB_COW,
 								MOB_CHICKEN,
 								MOB_PIG,
-								MOP_SHEEP,
+								MOB_SHEEP,
 							);
 							if(in_array($this->type,$mob)){
 								if($this->distance($otherp->entity) <= 7){
