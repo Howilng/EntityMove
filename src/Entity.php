@@ -1238,6 +1238,21 @@ class Entity extends Position{
 					}
 				}
 				if($this->class === ENTITY_PLAYER){
+					$tar = $this->server->api->entity->get($cause);
+					if($tar instanceof Entity){
+						$y = $tar->yaw;
+						$p = $tar->pitch;
+						$cos = cos($y/180*M_PI);
+						$sin = -sin($y/180*M_PI);
+						$pcos = cos($p/180*M_PI);
+						
+						$pk = new SetEntityMotionPacket;
+						$pk->eid = 0;
+						$pk->speedX = 16.1*$sin*$pcos;
+						$pk->speedY = 4.5;
+						$pk->speedZ = 16.1*$cos*$pcos;
+						$this->player->dataPacket($pk);
+					}
 					$armor=$this->player->armor;
 					for($a=0;$a<4;$a++){
 						if(isset($armor[$a])){
@@ -1271,6 +1286,19 @@ class Entity extends Position{
 								else$this->player->setArmor($a,new Item($armor[$a]->getID(),0,$armor[$a]->count-1));
 							}
 						}
+					}
+				}elseif($this->class === ENTITY_MOB){
+					$tar = $this->server->api->entity->get($cause);
+					if($tar instanceof Entity){
+						$y = $tar->yaw;
+						$p = $tar->pitch;
+						$cos = cos($y/180*M_PI);
+						$sin = -sin($y/180*M_PI);
+						$pcos = cos($p/180*M_PI);
+						
+						$this->speedX = 16.1*$sin*$pcos;
+						$this->speedY = 4.5;
+						$this->speedZ = 16.1*$cos*$pcos;
 					}
 				}
 			}
