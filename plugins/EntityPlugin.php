@@ -21,16 +21,16 @@ class EntityPlugin implements Plugin{
 	}
 	public function __destruct(){}
 	public function init(){
-		$this->api->addHandler("entity.death", array($this, "han"));
-		$this->api->addHandler("player.interact", array($this, "han"));
+		$this->api->addHandler("entity.death", array($this, "handler"));
+		$this->api->addHandler("player.interact", array($this, "handler"));
 		$this->conf = new Config($this->api->plugin->configPath($this)."config.yml",CONFIG_YAML, array(
-			"스폰시간" => 15,//20이 1초
+			"스폰시간" => 0.75,//초 단위
 			"몬스터최대수" => 25,
 		));
-		$this->api->schedule($this->conf->get("스폰시간"), array($this, "han"), array(), true, "Monster.spawn");
+		$this->api->schedule($this->conf->get("스폰시간")*20, array($this, "handler"), array(), true, "Monster.spawn");
 	}
 	
-	public function han($data, $event){
+	public function handler($data, $event){
 		switch($event){
 			case "player.interact":
 				$entity = $data["targetentity"];
